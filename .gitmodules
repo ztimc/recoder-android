@@ -1,0 +1,6 @@
+[submodule "recorder/src/main/cpp/oboe"]
+	path = recorder/src/main/cpp/oboe
+	url = https://github.com/google/oboe.git
+[submodule "recorder/src/main/cpp/rnnoise-nu"]
+	path = recorder/src/main/cpp/rnnoise-nu
+	url = https://github.com/GregorR/rnnoise-nu.git
