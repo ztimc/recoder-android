@@ -9,8 +9,22 @@
 #include <DefaultErrorCallback.h>
 #include "IRestartable.h"
 #include "DefaultDataCallback.h"
+#include "AudioFileEncoder.h"
 
-class RecorderOboeEngine : public IRestartable, DefaultDataCallback {
+enum Codec : int32_t {
+
+    /**
+     * Use this for wav
+     */
+    WAV = 1,
+
+    /**
+     * Use this for flac.
+     */
+    FLAC = 2,
+};
+
+class RecorderOboeEngine : public oboe::AudioStreamCallback {
 public:
     RecorderOboeEngine();
 
@@ -21,22 +35,14 @@ public:
             int deviceId,
             int channelCount,
             int sampleRate,
-            oboe::AudioFormat audioFormat);
+            int codec,
+            oboe::AudioFormat audioFormat,
+            const char *filePath);
 
     oboe::Result stop();
 
-    // From IRestartable
-    void restart() override;
-
-    /*
-    * oboe::AudioStreamDataCallback interface implementation
-    */
-    oboe::DataCallbackResult onAudioReady(oboe::AudioStream *oboeStream,
-                                          void *audioData, int32_t numFrames) override;
-
 
 private:
-    oboe::Result reopenStream();
 
     oboe::Result openStream();
 
@@ -44,14 +50,22 @@ private:
     static int constexpr kSampleRate = 48000;
 
     std::shared_ptr<oboe::AudioStream> mStream;
-    std::shared_ptr<DefaultErrorCallback> mErrorCallback;
     std::mutex mLock;
 
     int32_t mDeviceId = oboe::Unspecified;
     int32_t mChannelCount = oboe::Stereo;
     int32_t mSampleRate = kSampleRate;
+    int32_t mCodec = WAV;// 1 wav 2 flac
     oboe::AudioFormat mAudioFormat = oboe::AudioFormat::I16;
 
+    std::shared_ptr<AudioFileEncoder> mFileEncoder;
+
+    oboe::DataCallbackResult
+    onAudioReady(oboe::AudioStream *oboeStream, void *audioData, int32_t numFrames) override;
+    void onErrorBeforeClose(oboe::AudioStream *oboeStream, oboe::Result error) override;
+    void onErrorAfterClose(oboe::AudioStream *oboeStream, oboe::Result error) override;
+
+    void initFile(const char *filePath);
 
 };
 

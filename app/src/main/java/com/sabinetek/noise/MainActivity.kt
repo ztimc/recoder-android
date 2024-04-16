@@ -4,8 +4,6 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
-import android.view.View
-import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -16,17 +14,15 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.sabinetek.noise.ui.theme.WebrtcnoiseandroidTheme
-import com.sabinetek.recorder.NativeLib
+import com.sabinetek.recorder.AudioRecorder
 
 class MainActivity : ComponentActivity() {
 
-    private val nativeLib = NativeLib()
+    private val audioRecorder = AudioRecorder()
     private val requestPermissionLauncher =
         registerForActivityResult(
             ActivityResultContracts.RequestPermission()
@@ -37,6 +33,7 @@ class MainActivity : ComponentActivity() {
                 Log.i("Permission: ", "Denied")
             }
         }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -46,23 +43,32 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Greeting("Android")
+                    Column {
+                        Button(onClick = {
+                            Thread {
+                                audioRecorder.create()
+                                audioRecorder.startRecording(
+                                    1,
+                                    baseContext.filesDir.absolutePath + "/${System.currentTimeMillis()}.wav",
+                                    1,
+                                    48000,
+                                    1,
+                                    16
+                                )
+                            }.start()
+                        }) {
+                            Text(text = "start")
+                        }
+                        Button(onClick = {
+                            audioRecorder.stopRecording()
+                            audioRecorder.delete()
+                        }) {
+                            Text(text = "stop")
+                        }
+                    }
                 }
             }
-            Column {
-                Button(onClick = {
-                    Thread {
-                        nativeLib.startRecorder()
-                    }.start()
-                }) {
-                    Text(text = "start")
-                }
-                Button(onClick = {
-                    nativeLib.stopRecorder()
-                }) {
-                    Text(text = "stop")
-                }
-            }
+
 
         }
         onClickRequestPermission(this)
@@ -82,9 +88,9 @@ class MainActivity : ComponentActivity() {
                 this,
                 android.Manifest.permission.RECORD_AUDIO
             ) -> {
-                    requestPermissionLauncher.launch(
-                        android.Manifest.permission.RECORD_AUDIO
-                    )
+                requestPermissionLauncher.launch(
+                    android.Manifest.permission.RECORD_AUDIO
+                )
             }
 
             else -> {
@@ -93,21 +99,5 @@ class MainActivity : ComponentActivity() {
                 )
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    WebrtcnoiseandroidTheme {
-        Greeting("Android")
     }
 }

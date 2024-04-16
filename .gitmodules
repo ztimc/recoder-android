@@ -4,3 +4,6 @@
 [submodule "recorder/src/main/cpp/rnnoise-nu"]
 	path = recorder/src/main/cpp/rnnoise-nu
 	url = https://github.com/GregorR/rnnoise-nu.git
+[submodule "recorder/src/main/cpp/libsndfile"]
+	path = recorder/src/main/cpp/libsndfile
+	url = https://github.com/libsndfile/libsndfile.git

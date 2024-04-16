@@ -21,6 +21,11 @@ set (DEBUG_UTILS_PATH "${OBOE_DIR}/samples/debug-utils")
 set (DEBUG_UTILS_SOURCES ${DEBUG_UTILS_PATH}/trace.cpp)
 include_directories(${DEBUG_UTILS_PATH})
 
+### ADD LIBSNDFILE LIBRARY
+set(LIB_SND_FILE_DIR libsndfile)
+add_subdirectory(${LIB_SND_FILE_DIR} ./sndfile)
+include_directories(${LIB_SND_FILE_DIR}/src)
+
 # self
 include_directories(recorder)
 
@@ -47,6 +52,7 @@ target_include_directories(rnn
 # used in the AndroidManifest.xml file.
 add_library(${CMAKE_PROJECT_NAME} SHARED
         recorder/RecorderOboeEngine.cpp
+        recorder/AudioFileEncoder.cpp
         recorder.cpp)
 
 
@@ -56,6 +62,7 @@ add_library(${CMAKE_PROJECT_NAME} SHARED
 target_link_libraries(${CMAKE_PROJECT_NAME}
         # List libraries link to the target library
         oboe
+        sndfile
         rnn
         android
         log)
