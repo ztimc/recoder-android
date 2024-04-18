@@ -29,16 +29,20 @@ void AudioFileEncoder::initiateWritingToFile(const char *outFileName, int32_t ou
 }
 
 int32_t AudioFileEncoder::writeToFile(void *audioData, int32_t numFrames) {
-    if (mHandler == nullptr) {
+    if (mHandler == NULL) {
         LOGE(TAG, "Please call initiateWritingToFile");
         return 0;
     }
 
-    if (mHandler->format() & SF_FORMAT_PCM_16) {
+    int subMask = ((mHandler->format()) & SF_FORMAT_SUBMASK);
+
+    if (subMask == SF_FORMAT_PCM_16) {
         return mHandler->write((short *) audioData, numFrames);
-    } else if (mHandler->format() & SF_FORMAT_PCM_24) {
-        return mHandler->write((float *) audioData, numFrames);
-    } else if (mHandler->format() & SF_FORMAT_PCM_32) {
+    } else if (subMask == SF_FORMAT_PCM_24) {
+        return mHandler->writeRaw(audioData, 3*numFrames);
+    } else if (subMask == SF_FORMAT_PCM_32) {
+        return mHandler->write((int *) audioData, numFrames);
+    } else if (subMask == SF_FORMAT_FLOAT) {
         return mHandler->write((float *) audioData, numFrames);
     }
     LOGE(TAG, "Not support format");
@@ -46,7 +50,7 @@ int32_t AudioFileEncoder::writeToFile(void *audioData, int32_t numFrames) {
 }
 
 void AudioFileEncoder::close() {
-    if (mHandler != nullptr){
+    if (mHandler != nullptr) {
         delete mHandler;
     }
 }

@@ -53,7 +53,7 @@ class MainActivity : ComponentActivity() {
                                     1,
                                     48000,
                                     1,
-                                    16
+                                    32
                                 )
                             }.start()
                         }) {

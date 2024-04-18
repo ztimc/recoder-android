@@ -91,7 +91,7 @@ void RecorderOboeEngine::initFile(const char *filePath) {
 
     mFileEncoder->initiateWritingToFile(
             filePath,
-            1,
+            mChannelCount,
             mSampleRate,
             fileFormat | bit);
 }

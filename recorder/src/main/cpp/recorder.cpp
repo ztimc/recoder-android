@@ -36,7 +36,7 @@ Java_com_sabinetek_recorder_AudioRecorder_startRecording(JNIEnv *env, jobject th
     } else if (bit_depth == 32) {
         format = oboe::AudioFormat::I32;
     } else if (bit_depth == 64) {
-        format = oboe::AudioFormat::I24;
+        format = oboe::AudioFormat::Float;
     }
 
     engine->start(oboe::Unspecified,
