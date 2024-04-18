@@ -45,4 +45,10 @@ int32_t AudioFileEncoder::writeToFile(void *audioData, int32_t numFrames) {
     return 0;
 }
 
+void AudioFileEncoder::close() {
+    if (mHandler != nullptr){
+        delete mHandler;
+    }
+}
+
 

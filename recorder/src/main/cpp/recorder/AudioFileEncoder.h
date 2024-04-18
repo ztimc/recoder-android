@@ -19,6 +19,8 @@ public:
 
     int32_t writeToFile(void *audioData, int32_t numFrames);
 
+    void close();
+
 private:
 
     const char* TAG = "AudioFileEncoder:: %s";

@@ -64,6 +64,7 @@ oboe::Result RecorderOboeEngine::stop() {
         result = mStream->stop();
         mStream->close();
         mStream.reset();
+        mFileEncoder->close();
     }
     return result;
 }
@@ -100,7 +101,8 @@ oboe::Result RecorderOboeEngine::openStream() {
     oboe::AudioStreamBuilder builder;
     oboe::Result result = builder.setSharingMode(oboe::SharingMode::Exclusive)
             ->setDirection(oboe::Direction::Input)
-            ->setPerformanceMode(oboe::PerformanceMode::LowLatency)
+            ->setInputPreset(oboe::InputPreset::Unprocessed)
+            ->setPerformanceMode(oboe::PerformanceMode::None)
             ->setFormatConversionAllowed(true)
             ->setSampleRate(mSampleRate)
             ->setSampleRateConversionQuality(oboe::SampleRateConversionQuality::Best)
