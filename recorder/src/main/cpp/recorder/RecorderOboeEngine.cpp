@@ -127,34 +127,6 @@ RecorderOboeEngine::onAudioReady(oboe::AudioStream *oboeStream, void *audioData,
         return oboe::DataCallbackResult::Stop;
     }
 
-    float samples[numFrames * oboeStream->getChannelCount()]; // Depending on channel count
-
-    if (mAudioFormat == oboe::AudioFormat::I16) {
-        int16_t *data = static_cast<int16_t *>(audioData);
-
-        for (int i = 0; i < numFrames * oboeStream->getChannelCount(); ++i) {
-            samples[i] = static_cast<float>(data[i]) / 32767.f;
-        }
-    } else if (mAudioFormat == oboe::AudioFormat::I24) {
-        int32_t *data = static_cast<int32_t *>(audioData);
-
-        for (int i = 0; i < numFrames * oboeStream->getChannelCount(); ++i) {
-            samples[i] = static_cast<float>(data[i] >> 8) / 8388607.f;
-        }
-    } else if (mAudioFormat == oboe::AudioFormat::I32) {
-        int32_t *data = static_cast<int32_t *>(audioData);
-
-        for (int i = 0; i < numFrames * oboeStream->getChannelCount(); ++i) {
-            samples[i] = static_cast<float>(data[i]) / 2147483647.f;
-        }
-    } else if (mAudioFormat == oboe::AudioFormat::Float) {
-        float *data = static_cast<float *>(audioData);
-        for (int i = 0; i < numFrames * oboeStream->getChannelCount(); ++i) {
-            samples[i] = data[i];
-        }
-    }
-    LOGI("fucker %s", std::to_string(samples[50]).c_str());
-
     return oboe::DataCallbackResult::Continue;
 }
 
