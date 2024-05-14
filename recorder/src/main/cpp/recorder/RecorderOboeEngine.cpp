@@ -122,7 +122,39 @@ oboe::DataCallbackResult
 RecorderOboeEngine::onAudioReady(oboe::AudioStream *oboeStream, void *audioData,
                                  int32_t numFrames) {
     int32_t writeLen = mFileEncoder->writeToFile(audioData, numFrames);
-    LOGI("numFrames is %d\n", writeLen);
+    if (writeLen <= 0) {
+        LOGE("Error writeToFile. Error: %s", "writeLen <= 0");
+        return oboe::DataCallbackResult::Stop;
+    }
+
+    float samples[numFrames * oboeStream->getChannelCount()]; // Depending on channel count
+
+    if (mAudioFormat == oboe::AudioFormat::I16) {
+        int16_t *data = static_cast<int16_t *>(audioData);
+
+        for (int i = 0; i < numFrames * oboeStream->getChannelCount(); ++i) {
+            samples[i] = static_cast<float>(data[i]) / 32767.f;
+        }
+    } else if (mAudioFormat == oboe::AudioFormat::I24) {
+        int32_t *data = static_cast<int32_t *>(audioData);
+
+        for (int i = 0; i < numFrames * oboeStream->getChannelCount(); ++i) {
+            samples[i] = static_cast<float>(data[i] >> 8) / 8388607.f;
+        }
+    } else if (mAudioFormat == oboe::AudioFormat::I32) {
+        int32_t *data = static_cast<int32_t *>(audioData);
+
+        for (int i = 0; i < numFrames * oboeStream->getChannelCount(); ++i) {
+            samples[i] = static_cast<float>(data[i]) / 2147483647.f;
+        }
+    } else if (mAudioFormat == oboe::AudioFormat::Float) {
+        float *data = static_cast<float *>(audioData);
+        for (int i = 0; i < numFrames * oboeStream->getChannelCount(); ++i) {
+            samples[i] = data[i];
+        }
+    }
+    LOGI("fucker %s", std::to_string(samples[50]).c_str());
+
     return oboe::DataCallbackResult::Continue;
 }
 
@@ -134,7 +166,7 @@ RecorderOboeEngine::onAudioReady(oboe::AudioStream *oboeStream, void *audioData,
  * @param error: oboe's reason for closing the stream
  */
 void RecorderOboeEngine::onErrorBeforeClose(oboe::AudioStream *oboeStream,
-                                          oboe::Result error) {
+                                            oboe::Result error) {
     LOGE("%s stream Error before close: %s",
          oboe::convertToText(oboeStream->getDirection()),
          oboe::convertToText(error));
@@ -147,7 +179,7 @@ void RecorderOboeEngine::onErrorBeforeClose(oboe::AudioStream *oboeStream,
  * @param error
  */
 void RecorderOboeEngine::onErrorAfterClose(oboe::AudioStream *oboeStream,
-                                         oboe::Result error) {
+                                           oboe::Result error) {
     LOGE("%s stream Error after close: %s",
          oboe::convertToText(oboeStream->getDirection()),
          oboe::convertToText(error));

@@ -19,7 +19,6 @@ Java_com_sabinetek_recorder_AudioRecorder_delete(JNIEnv *env, jobject thiz) {
     engine = nullptr;
 }
 
-
 extern "C"
 JNIEXPORT void JNICALL
 Java_com_sabinetek_recorder_AudioRecorder_startRecording(JNIEnv *env, jobject thiz, jint device_id,
@@ -39,7 +38,7 @@ Java_com_sabinetek_recorder_AudioRecorder_startRecording(JNIEnv *env, jobject th
         format = oboe::AudioFormat::Float;
     }
 
-    engine->start(oboe::Unspecified,
+    engine->start(device_id,
                   channel,
                   sample_rate,
                   codec,

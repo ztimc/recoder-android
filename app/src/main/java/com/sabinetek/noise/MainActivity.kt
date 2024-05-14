@@ -48,9 +48,9 @@ class MainActivity : ComponentActivity() {
                             Thread {
                                 audioRecorder.create()
                                 audioRecorder.startRecording(
-                                    1,
+                                    0,
                                     baseContext.filesDir.absolutePath + "/${System.currentTimeMillis()}.wav",
-                                    1,
+                                    2,
                                     48000,
                                     1,
                                     32
