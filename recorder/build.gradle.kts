@@ -1,6 +1,22 @@
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
+    `maven-publish`
+}
+
+
+afterEvaluate {
+    publishing {
+        publications {
+            create<MavenPublication>("maven") {
+                groupId = "com.sabinetek.recorder"
+                artifactId = "com-sabinetek-recorder"
+                version = "1.0.1"
+
+                from(components["release"])
+            }
+        }
+    }
 }
 
 android {
