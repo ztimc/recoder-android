@@ -5,7 +5,7 @@
 #ifndef WEBRTC_NOISE_ANDROID_RECORDER_OBOE_ENGINE_H
 #define WEBRTC_NOISE_ANDROID_RECORDER_OBOE_ENGINE_H
 
-#include <oboe/oboe.h>
+#include <oboe.h>
 #include <DefaultErrorCallback.h>
 #include "IRestartable.h"
 #include "DefaultDataCallback.h"

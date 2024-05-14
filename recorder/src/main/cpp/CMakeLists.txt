@@ -14,7 +14,7 @@ project("recorder")
 set (OBOE_DIR oboe)
 add_subdirectory (${OBOE_DIR} ./oboe)
 # Include the Oboe headers and shared sample code
-include_directories(${OBOE_DIR}/include ${OBOE_DIR}/samples/shared)
+include_directories(${OBOE_DIR}/include/oboe ${OBOE_DIR}/samples/shared)
 
 # Debug utilities
 set (DEBUG_UTILS_PATH "${OBOE_DIR}/samples/debug-utils")
