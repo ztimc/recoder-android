@@ -17,6 +17,7 @@
 #include "FormatConverterBox.h"
 
 FormatConverterBox::FormatConverterBox(int32_t maxSamples,
+                                       int32_t channel,
                                        oboe::AudioFormat inputFormat,
                                        oboe::AudioFormat outputFormat) {
     mInputFormat = inputFormat;
@@ -30,18 +31,18 @@ FormatConverterBox::FormatConverterBox(int32_t maxSamples,
     switch (mInputFormat) {
         case oboe::AudioFormat::I16:
         case oboe::AudioFormat::IEC61937:
-            mSource = std::make_unique<oboe::flowgraph::SourceI16>(1);
+            mSource = std::make_unique<oboe::flowgraph::SourceI16>(channel);
             break;
         case oboe::AudioFormat::I24:
-            mSource = std::make_unique<oboe::flowgraph::SourceI24>(1);
+            mSource = std::make_unique<oboe::flowgraph::SourceI24>(channel);
             break;
         case oboe::AudioFormat::I32:
-            mSource = std::make_unique<oboe::flowgraph::SourceI32>(1);
+            mSource = std::make_unique<oboe::flowgraph::SourceI32>(channel);
             break;
         case oboe::AudioFormat::Float:
         case oboe::AudioFormat::Invalid:
         case oboe::AudioFormat::Unspecified:
-            mSource = std::make_unique<oboe::flowgraph::SourceFloat>(1);
+            mSource = std::make_unique<oboe::flowgraph::SourceFloat>(channel);
             break;
     }
 
@@ -49,18 +50,18 @@ FormatConverterBox::FormatConverterBox(int32_t maxSamples,
     switch (mOutputFormat) {
         case oboe::AudioFormat::I16:
         case oboe::AudioFormat::IEC61937:
-            mSink = std::make_unique<oboe::flowgraph::SinkI16>(1);
+            mSink = std::make_unique<oboe::flowgraph::SinkI16>(channel);
             break;
         case oboe::AudioFormat::I24:
-            mSink = std::make_unique<oboe::flowgraph::SinkI24>(1);
+            mSink = std::make_unique<oboe::flowgraph::SinkI24>(channel);
             break;
         case oboe::AudioFormat::I32:
-            mSink = std::make_unique<oboe::flowgraph::SinkI32>(1);
+            mSink = std::make_unique<oboe::flowgraph::SinkI32>(channel);
             break;
         case oboe::AudioFormat::Float:
         case oboe::AudioFormat::Invalid:
         case oboe::AudioFormat::Unspecified:
-            mSink = std::make_unique<oboe::flowgraph::SinkFloat>(1);
+            mSink = std::make_unique<oboe::flowgraph::SinkFloat>(channel);
             break;
     }
 

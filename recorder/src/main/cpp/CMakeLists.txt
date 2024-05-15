@@ -14,7 +14,7 @@ project("recorder")
 set (OBOE_DIR oboe)
 add_subdirectory (${OBOE_DIR} ./oboe)
 # Include the Oboe headers and shared sample code
-include_directories(${OBOE_DIR}/include/oboe ${OBOE_DIR}/samples/shared)
+include_directories(${OBOE_DIR}/include/oboe ${OBOE_DIR}/samples/shared ${OBOE_DIR}/src/flowgraph)
 
 # Debug utilities
 set (DEBUG_UTILS_PATH "${OBOE_DIR}/samples/debug-utils")
@@ -53,6 +53,7 @@ target_include_directories(rnn
 add_library(${CMAKE_PROJECT_NAME} SHARED
         recorder/RecorderOboeEngine.cpp
         recorder/AudioFileEncoder.cpp
+        recorder/FormatConverterBox.cpp
         recorder.cpp)
 
 

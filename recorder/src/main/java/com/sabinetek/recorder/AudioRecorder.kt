@@ -22,12 +22,14 @@ class AudioRecorder {
 
     external fun stopRecording()
 
-
-
-    companion object {
-        // Used to load the 'recorder' library on application startup.
-        init {
-            System.loadLibrary("recorder")
-        }
+    // 回调函数
+    fun onAudioData(data: FloatArray) {
+        // 处理录音数据
+        println("Received audio data: ${data.joinToString()}")
     }
+
+    init {
+        System.loadLibrary("recorder")
+    }
+
 }

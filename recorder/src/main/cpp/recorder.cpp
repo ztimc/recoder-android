@@ -9,7 +9,10 @@ static RecorderOboeEngine *engine;
 extern "C"
 JNIEXPORT jboolean JNICALL
 Java_com_sabinetek_recorder_AudioRecorder_create(JNIEnv *env, jobject thiz) {
-    engine = new RecorderOboeEngine();
+    JavaVM *javaVM;
+    env->GetJavaVM(&javaVM);
+    jobject globalRef = env->NewGlobalRef(thiz);
+    engine = new RecorderOboeEngine(javaVM, globalRef);
     return (engine != nullptr);
 }
 extern "C"

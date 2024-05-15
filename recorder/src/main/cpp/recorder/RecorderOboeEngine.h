@@ -10,6 +10,10 @@
 #include "IRestartable.h"
 #include "DefaultDataCallback.h"
 #include "AudioFileEncoder.h"
+#include "FormatConverterBox.h"
+#include <jni.h>
+#include <thread>
+#include <queue>
 
 enum Codec : int32_t {
 
@@ -26,7 +30,7 @@ enum Codec : int32_t {
 
 class RecorderOboeEngine : public oboe::AudioStreamCallback {
 public:
-    RecorderOboeEngine();
+    RecorderOboeEngine(JavaVM *javaVM, jobject jObj);
 
     virtual ~RecorderOboeEngine() = default;
 
@@ -59,6 +63,15 @@ private:
     oboe::AudioFormat mAudioFormat = oboe::AudioFormat::I16;
 
     std::shared_ptr<AudioFileEncoder> mFileEncoder;
+    std::unique_ptr<FormatConverterBox> mInputConverter;
+
+    std::thread taskThread;
+    std::queue<std::function<void()>> taskQueue;
+    std::condition_variable taskCondition;
+    std::mutex taskQueueMutex;
+    bool stopThread = false;
+
+    void processTasks();
 
     oboe::DataCallbackResult
     onAudioReady(oboe::AudioStream *oboeStream, void *audioData, int32_t numFrames) override;
@@ -66,6 +79,9 @@ private:
     void onErrorAfterClose(oboe::AudioStream *oboeStream, oboe::Result error) override;
 
     void initFile(const char *filePath);
+
+    JavaVM *mJavaVM;
+    jobject mJObj;
 
 };
 

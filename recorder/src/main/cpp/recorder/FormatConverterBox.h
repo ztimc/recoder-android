@@ -21,14 +21,14 @@
 #include <sys/types.h>
 
 #include "oboe/Oboe.h"
-#include "flowgraph/SinkFloat.h"
-#include "flowgraph/SinkI16.h"
-#include "flowgraph/SinkI24.h"
-#include "flowgraph/SinkI32.h"
-#include "flowgraph/SourceFloat.h"
-#include "flowgraph/SourceI16.h"
-#include "flowgraph/SourceI24.h"
-#include "flowgraph/SourceI32.h"
+#include "SinkFloat.h"
+#include "SinkI16.h"
+#include "SinkI24.h"
+#include "SinkI32.h"
+#include "SourceFloat.h"
+#include "SourceI16.h"
+#include "SourceI24.h"
+#include "SourceI32.h"
 
 /**
  * Use flowgraph modules to convert between the various data formats.
@@ -39,6 +39,7 @@
 class FormatConverterBox {
 public:
     FormatConverterBox(int32_t maxSamples,
+                       int32_t channel,
                        oboe::AudioFormat inputFormat,
                        oboe::AudioFormat outputFormat);
 
@@ -47,13 +48,13 @@ public:
      */
     void *getOutputBuffer() {
         return (void *) mOutputBuffer.get();
-    };
+    }
     /**
      * @return internal buffer used to store output data
      */
     void *getInputBuffer() {
         return (void *) mInputBuffer.get();
-    };
+    }
 
     /** Convert the data from inputFormat to outputFormat
      * using both internal buffers.
