@@ -6,6 +6,11 @@ class AudioRecorder {
      * A native method that is implemented by the 'recorder' native library,
      * which is packaged with this application.
      */
+    interface Callback {
+        fun onAudioReady(data: FloatArray)
+    }
+
+    var callback: AudioRecorder.Callback? = null
 
     // Native methods
     external fun create(): Boolean
@@ -22,14 +27,15 @@ class AudioRecorder {
 
     external fun stopRecording()
 
-    // 回调函数
+
+    //Callback
     fun onAudioData(data: FloatArray) {
-        // 处理录音数据
-        println("Received audio data: ${data.joinToString()}")
+        callback?.onAudioReady(data)
     }
 
     init {
         System.loadLibrary("recorder")
     }
+
 
 }

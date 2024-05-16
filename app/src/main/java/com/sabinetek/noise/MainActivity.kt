@@ -47,6 +47,12 @@ class MainActivity : ComponentActivity() {
                         Button(onClick = {
                             Thread {
                                 audioRecorder.create()
+
+                                audioRecorder.callback = object : AudioRecorder.Callback {
+                                    override fun onAudioReady(data: FloatArray) {
+                                        println(data.size)
+                                    }
+                                }
                                 audioRecorder.startRecording(
                                     0,
                                     baseContext.filesDir.absolutePath + "/${System.currentTimeMillis()}.wav",
