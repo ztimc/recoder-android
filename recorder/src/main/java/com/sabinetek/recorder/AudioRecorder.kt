@@ -27,6 +27,9 @@ class AudioRecorder {
 
     external fun stopRecording()
 
+    external fun pause()
+
+    external fun resume()
 
     //Callback
     fun onAudioData(data: FloatArray) {

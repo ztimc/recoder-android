@@ -45,6 +45,10 @@ public:
 
     oboe::Result stop();
 
+    oboe::Result pause();
+
+    oboe::Result resume();
+
 
 private:
 
@@ -61,6 +65,7 @@ private:
     int32_t mSampleRate = kSampleRate;
     int32_t mCodec = WAV;// 1 wav 2 flac
     oboe::AudioFormat mAudioFormat = oboe::AudioFormat::I16;
+    bool isPause = false;
 
     std::shared_ptr<AudioFileEncoder> mFileEncoder;
     std::unique_ptr<FormatConverterBox> mInputConverter;

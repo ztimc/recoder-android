@@ -144,6 +144,9 @@ oboe::Result RecorderOboeEngine::openStream() {
 oboe::DataCallbackResult
 RecorderOboeEngine::onAudioReady(oboe::AudioStream *oboeStream, void *audioData,
                                  int32_t numFrames) {
+    if (isPause) {
+        return oboe::DataCallbackResult::Continue;
+    }
 
     int32_t writeLen = mFileEncoder->writeToFile(audioData, numFrames);
     if (writeLen <= 0) {
@@ -151,11 +154,12 @@ RecorderOboeEngine::onAudioReady(oboe::AudioStream *oboeStream, void *audioData,
         return oboe::DataCallbackResult::Stop;
     }
     {
+
         std::lock_guard<std::mutex> lock(taskQueueMutex);
         taskQueue.emplace([this, numFrames, audioData]() {
             int size = numFrames * mChannelCount;
             float out[size];
-            float mono[size];
+            float mono[numFrames];
             mInputConverter->convert(out, numFrames, audioData);
             if (mChannelCount == oboe::Stereo) {
                 for (int32_t i = 0; i < numFrames; ++i) {
@@ -169,10 +173,10 @@ RecorderOboeEngine::onAudioReady(oboe::AudioStream *oboeStream, void *audioData,
             mJavaVM->AttachCurrentThread(&env, nullptr);
             jclass cls = env->GetObjectClass(mJObj);
             jmethodID method = env->GetMethodID(cls, "onAudioData", "([F)V");
-            jfloatArray jData = env->NewFloatArray(size);
+            jfloatArray jData = env->NewFloatArray(numFrames);
             env->SetFloatArrayRegion(jData,
                                      0,
-                                     size,
+                                     numFrames,
                                      mChannelCount == oboe::Stereo ? mono : out);
             env->CallVoidMethod(mJObj, method, jData);
             env->DeleteLocalRef(jData);
@@ -230,6 +234,16 @@ void RecorderOboeEngine::processTasks() {
         task();
     }
 
+}
+
+oboe::Result RecorderOboeEngine::pause() {
+    isPause = true;
+    return oboe::Result::OK;
+}
+
+oboe::Result RecorderOboeEngine::resume() {
+    isPause = false;
+    return oboe::Result::OK;
 }
 
 

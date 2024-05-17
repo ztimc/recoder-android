@@ -56,3 +56,14 @@ JNIEXPORT void JNICALL
 Java_com_sabinetek_recorder_AudioRecorder_stopRecording(JNIEnv *env, jobject thiz) {
     engine->stop();
 }
+
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_sabinetek_recorder_AudioRecorder_pause(JNIEnv *env, jobject thiz) {
+     engine->pause();
+}
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_sabinetek_recorder_AudioRecorder_resume(JNIEnv *env, jobject thiz) {
+    engine->resume();
+}

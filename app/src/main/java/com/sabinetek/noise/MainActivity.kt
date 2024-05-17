@@ -49,8 +49,10 @@ class MainActivity : ComponentActivity() {
                                 audioRecorder.create()
 
                                 audioRecorder.callback = object : AudioRecorder.Callback {
+                                    private var totalSample = 0f
                                     override fun onAudioReady(data: FloatArray) {
-                                        println(data.size)
+                                        totalSample += data.size
+                                        println(totalSample / 48000f)
                                     }
                                 }
                                 audioRecorder.startRecording(
@@ -70,6 +72,16 @@ class MainActivity : ComponentActivity() {
                             audioRecorder.delete()
                         }) {
                             Text(text = "stop")
+                        }
+                        Button(onClick = {
+                            audioRecorder.pause()
+                        }) {
+                            Text(text = "pause")
+                        }
+                        Button(onClick = {
+                            audioRecorder.resume()
+                        }) {
+                            Text(text = "resume")
                         }
                     }
                 }
