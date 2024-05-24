@@ -11,20 +11,33 @@ cmake_minimum_required(VERSION 3.22.1)
 # build script scope).
 project("recorder")
 
+
 set (OBOE_DIR oboe)
 add_subdirectory (${OBOE_DIR} ./oboe)
 # Include the Oboe headers and shared sample code
 include_directories(${OBOE_DIR}/include/oboe ${OBOE_DIR}/samples/shared ${OBOE_DIR}/src/flowgraph)
+
 
 # Debug utilities
 set (DEBUG_UTILS_PATH "${OBOE_DIR}/samples/debug-utils")
 set (DEBUG_UTILS_SOURCES ${DEBUG_UTILS_PATH}/trace.cpp)
 include_directories(${DEBUG_UTILS_PATH})
 
+# ADD FLAC
+
+#option(INSTALL_MANPAGES "Install MAN pages" OFF)
+#option(WITH_OGG "ogg support (default: test for libogg)" OFF)
+#set(LIB_FLAC_DIR ./flac)
+#add_subdirectory(${LIB_FLAC_DIR} flac)
+#include_directories(${LIB_FLAC_DIR}/include/FLAC)
+
 ### ADD LIBSNDFILE LIBRARY
-set(LIB_SND_FILE_DIR libsndfile)
-add_subdirectory(${LIB_SND_FILE_DIR} ./sndfile)
+
+
+set(LIB_SND_FILE_DIR ./libsndfile)
+add_subdirectory(${LIB_SND_FILE_DIR} sndfile)
 include_directories(${LIB_SND_FILE_DIR}/src)
+
 
 # self
 include_directories(recorder)
