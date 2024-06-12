@@ -8,25 +8,27 @@
 #include <stdint.h>
 #include "Codec.h"
 #include "Oboe.h"
+#include "AudioCodec.h"
 
 class AudioFileEncoder {
 
 public:
 
-    void initiateWritingToFile(const char *outFileName,
-                               int32_t outputChannels,
-                               int32_t sampleRate,
-                               oboe::AudioFormat format,
-                               Codec codec);
+    void openAudioFile(const char *outFileName,
+                       int32_t outputChannels,
+                       int32_t sampleRate,
+                       oboe::AudioFormat format,
+                       Codec codec);
 
     int32_t writeToFile(void *audioData, int32_t numFrames);
 
-    void close();
+    void closeFile();
 
 private:
 
     const char* TAG = "AudioFileEncoder:: %s";
 
+    std::shared_ptr<AudioCodec> mFileEncoder;
 };
 
 

@@ -17,6 +17,8 @@ add_subdirectory(${OBOE_DIR} ./oboe)
 # Include the Oboe headers and shared sample code
 include_directories(${OBOE_DIR}/include/oboe ${OBOE_DIR}/samples/shared ${OBOE_DIR}/src/flowgraph)
 
+add_subdirectory(libsndfile)
+include_directories(libsndfile/include)
 
 # Debug utilities
 set(DEBUG_UTILS_PATH "${OBOE_DIR}/samples/debug-utils")
@@ -54,5 +56,6 @@ target_include_directories(recorder
 target_link_libraries(${CMAKE_PROJECT_NAME}
         # List libraries link to the target library
         oboe
+        sndfile
         android
         log)

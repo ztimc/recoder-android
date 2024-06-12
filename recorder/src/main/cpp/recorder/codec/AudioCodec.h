@@ -11,6 +11,7 @@
 #include "../Codec.h"
 
 class AudioCodec {
+public :
     virtual int32_t createCodec(const char *outFileName,
                                 int32_t outputChannels,
                                 int32_t sampleRate,
@@ -18,7 +19,7 @@ class AudioCodec {
 
     virtual int32_t write(void *audioData, int32_t samples) = 0;
 
-    virtual void destroyCodec() = 0;
+    virtual void destroyCodec() {};
 };
 
 

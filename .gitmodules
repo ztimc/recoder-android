@@ -1,3 +1,6 @@
 [submodule "recorder/src/main/cpp/oboe"]
 	path = recorder/src/main/cpp/oboe
 	url = https://github.com/google/oboe.git
+[submodule "recorder/src/main/cpp/libsndfile"]
+	path = recorder/src/main/cpp/libsndfile
+	url = https://github.com/libsndfile/libsndfile.git

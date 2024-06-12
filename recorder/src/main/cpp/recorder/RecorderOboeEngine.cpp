@@ -77,7 +77,7 @@ oboe::Result RecorderOboeEngine::stop() {
         result = mStream->stop();
         mStream->close();
         mStream.reset();
-        mFileEncoder->close();
+        mFileEncoder->closeFile();
     }
 
     {
@@ -94,8 +94,7 @@ oboe::Result RecorderOboeEngine::stop() {
 void RecorderOboeEngine::initFile(const char *filePath) {
 
 
-
-    mFileEncoder->initiateWritingToFile(
+    mFileEncoder->openAudioFile(
             filePath,
             mChannelCount,
             mSampleRate,
