@@ -4,7 +4,6 @@
 
 #include <memory>
 #include <Oscillator.h>
-#include <rnnoise-nu.h>
 
 #include "RecorderOboeEngine.h"
 
@@ -18,7 +17,7 @@ oboe::Result RecorderOboeEngine::start(
         int deviceId,
         int channelCount,
         int sampleRate,
-        int codec,
+        Codec codec,
         oboe::AudioFormat audioFormat,
         const char *filePath) {
     mDeviceId = deviceId;
@@ -44,7 +43,7 @@ oboe::Result RecorderOboeEngine::start(
             taskThread = std::thread(&RecorderOboeEngine::processTasks, this);
 
             LOGD("Stream opened: AudioAPI = %d, channelCount = %d, deviceID = %d",
-                 mStream->getAudioApi(),
+                 static_cast<int32_t>(mStream->getAudioApi()),
                  mStream->getChannelCount(),
                  mStream->getDeviceId());
 
@@ -94,29 +93,14 @@ oboe::Result RecorderOboeEngine::stop() {
 
 void RecorderOboeEngine::initFile(const char *filePath) {
 
-    int bit = SF_FORMAT_PCM_16;
-    if (mAudioFormat == oboe::AudioFormat::I16) {
-        bit = SF_FORMAT_PCM_16;
-    } else if (mAudioFormat == oboe::AudioFormat::I24) {
-        bit = SF_FORMAT_PCM_24;
-    } else if (mAudioFormat == oboe::AudioFormat::I32) {
-        bit = SF_FORMAT_PCM_32;
-    } else if (mAudioFormat == oboe::AudioFormat::Float) { // 这里暂时这样替代
-        bit = SF_FORMAT_FLOAT;
-    }
 
-    int fileFormat = SF_FORMAT_WAV;
-    if (mCodec == WAV) {
-        fileFormat = SF_FORMAT_WAV;
-    } else if (mCodec == FLAC) {
-        fileFormat = SF_FORMAT_FLAC;
-    }
 
     mFileEncoder->initiateWritingToFile(
             filePath,
             mChannelCount,
             mSampleRate,
-            fileFormat | bit);
+            mAudioFormat,
+            mCodec);
 }
 
 

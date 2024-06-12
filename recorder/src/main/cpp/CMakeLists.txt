@@ -12,43 +12,18 @@ cmake_minimum_required(VERSION 3.22.1)
 project("recorder")
 
 
-set (OBOE_DIR oboe)
-add_subdirectory (${OBOE_DIR} ./oboe)
+set(OBOE_DIR oboe)
+add_subdirectory(${OBOE_DIR} ./oboe)
 # Include the Oboe headers and shared sample code
 include_directories(${OBOE_DIR}/include/oboe ${OBOE_DIR}/samples/shared ${OBOE_DIR}/src/flowgraph)
 
 
 # Debug utilities
-set (DEBUG_UTILS_PATH "${OBOE_DIR}/samples/debug-utils")
-set (DEBUG_UTILS_SOURCES ${DEBUG_UTILS_PATH}/trace.cpp)
+set(DEBUG_UTILS_PATH "${OBOE_DIR}/samples/debug-utils")
+set(DEBUG_UTILS_SOURCES ${DEBUG_UTILS_PATH}/trace.cpp)
 include_directories(${DEBUG_UTILS_PATH})
 
-# ADD FLAC
-
-#option(INSTALL_MANPAGES "Install MAN pages" OFF)
-#option(WITH_OGG "ogg support (default: test for libogg)" OFF)
-#set(LIB_FLAC_DIR ./flac)
-#add_subdirectory(${LIB_FLAC_DIR} flac)
-#include_directories(${LIB_FLAC_DIR}/include/FLAC)
-
-### ADD LIBSNDFILE LIBRARY
-
-
-set(LIB_SND_FILE_DIR ./libsndfile)
-add_subdirectory(${LIB_SND_FILE_DIR} sndfile)
-include_directories(${LIB_SND_FILE_DIR}/src)
-
-
 # self
-include_directories(recorder)
-
-# RNNoise
-file(GLOB RNN_SOURCE "${CMAKE_CURRENT_SOURCE_DIR}/rnnoise-nu/src/*.c" "${CMAKE_CURRENT_SOURCE_DIR}/rnnoise-nu/src/models/*.c")
-add_library(rnn SHARED
-        ${RNN_SOURCE})
-target_include_directories(rnn
-        PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/rnnoise-nu/src
-        PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/rnnoise-nu/include)
 
 # Creates and names a library, sets it as either STATIC
 # or SHARED, and provides the relative paths to its source code.
@@ -67,8 +42,11 @@ add_library(${CMAKE_PROJECT_NAME} SHARED
         recorder/RecorderOboeEngine.cpp
         recorder/AudioFileEncoder.cpp
         recorder/FormatConverterBox.cpp
+        recorder/codec/WavCodec.cpp
         recorder.cpp)
 
+target_include_directories(recorder
+        PRIVATE recorder recorder/codec)
 
 # Specifies libraries CMake should link to your target library. You
 # can link libraries from various origins, such as libraries defined in this
@@ -76,7 +54,5 @@ add_library(${CMAKE_PROJECT_NAME} SHARED
 target_link_libraries(${CMAKE_PROJECT_NAME}
         # List libraries link to the target library
         oboe
-        sndfile
-        rnn
         android
         log)

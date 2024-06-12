@@ -6,7 +6,8 @@
 #define WEBRTC_NOISE_ANDROID_AUDIOFILEENCODER_H
 
 #include <stdint.h>
-#include "sndfile.hh"
+#include "Codec.h"
+#include "Oboe.h"
 
 class AudioFileEncoder {
 
@@ -15,7 +16,8 @@ public:
     void initiateWritingToFile(const char *outFileName,
                                int32_t outputChannels,
                                int32_t sampleRate,
-                               int32_t format);
+                               oboe::AudioFormat format,
+                               Codec codec);
 
     int32_t writeToFile(void *audioData, int32_t numFrames);
 
@@ -24,8 +26,6 @@ public:
 private:
 
     const char* TAG = "AudioFileEncoder:: %s";
-
-    SndfileHandle *mHandler = nullptr;
 
 };
 

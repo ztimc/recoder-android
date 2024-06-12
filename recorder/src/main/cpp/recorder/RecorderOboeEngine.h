@@ -6,27 +6,16 @@
 #define WEBRTC_NOISE_ANDROID_RECORDER_OBOE_ENGINE_H
 
 #include "Oboe.h"
+#include "Codec.h"
 #include <DefaultErrorCallback.h>
 #include "IRestartable.h"
 #include "DefaultDataCallback.h"
-#include "AudioFileEncoder.h"
 #include "FormatConverterBox.h"
+#include "AudioFileEncoder.h"
 #include <jni.h>
 #include <thread>
 #include <queue>
 
-enum Codec : int32_t {
-
-    /**
-     * Use this for wav
-     */
-    WAV = 1,
-
-    /**
-     * Use this for flac.
-     */
-    FLAC = 2,
-};
 
 class RecorderOboeEngine : public oboe::AudioStreamCallback {
 public:
@@ -39,7 +28,7 @@ public:
             int deviceId,
             int channelCount,
             int sampleRate,
-            int codec,
+            Codec codec,
             oboe::AudioFormat audioFormat,
             const char *filePath);
 
@@ -63,7 +52,7 @@ private:
     int32_t mDeviceId = oboe::Unspecified;
     int32_t mChannelCount = oboe::Stereo;
     int32_t mSampleRate = kSampleRate;
-    int32_t mCodec = WAV;// 1 wav 2 flac
+    Codec mCodec = WAV;// 1 wav 2 flac
     oboe::AudioFormat mAudioFormat = oboe::AudioFormat::I16;
     bool isPause = false;
 

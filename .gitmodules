@@ -1,24 +1,3 @@
 [submodule "recorder/src/main/cpp/oboe"]
 	path = recorder/src/main/cpp/oboe
 	url = https://github.com/google/oboe.git
-[submodule "recorder/src/main/cpp/rnnoise-nu"]
-	path = recorder/src/main/cpp/rnnoise-nu
-	url = https://github.com/GregorR/rnnoise-nu.git
-[submodule "recorder/src/main/cpp/libsndfile"]
-	path = recorder/src/main/cpp/libsndfile
-	url = https://github.com/libsndfile/libsndfile.git
-[submodule "recorder/src/main/cpp/flac"]
-	path = recorder/src/main/cpp/flac
-	url = https://github.com/xiph/flac.git
-[submodule "recorder/src/main/cpp/fdk-aac"]
-	path = recorder/src/main/cpp/fdk-aac
-	url = https://github.com/mstorsjo/fdk-aac
-[submodule "recorder/src/main/cpp/ogg"]
-	path = recorder/src/main/cpp/ogg
-	url = https://github.com/xiph/ogg
-[submodule "recorder/src/main/cpp/opus"]
-	path = recorder/src/main/cpp/opus
-	url = https://github.com/xiph/opus
-[submodule "recorder/src/main/cpp/vorbis"]
-	path = recorder/src/main/cpp/vorbis
-	url = https://github.com/xiph/vorbis
