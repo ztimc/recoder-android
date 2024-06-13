@@ -5,25 +5,27 @@
 #include "AudioFileEncoder.h"
 #include "logging_macros.h"
 #include "WavCodec.h"
-
+#include "FlacEncoder.h"
 
 void AudioFileEncoder::openAudioFile(const char *outFileName,
                                      int32_t outputChannels,
                                      int32_t sampleRate,
                                      oboe::AudioFormat format,
-                                     Codec codec) {
+                                     RecorderCodec codec) {
     switch (codec) {
-        case WAV:
+        case RECORDER_WAV:
             mFileEncoder = std::make_shared<WavCodec>();
             mFileEncoder->createCodec(outFileName, outputChannels, sampleRate, format);
             break;
-        case FLAC:
+        case RECORDER_FLAC:
+            mFileEncoder = std::make_shared<FlacEncoder>();
+            mFileEncoder->createCodec(outFileName, outputChannels, sampleRate, format);
             break;
     }
 }
 
 int32_t AudioFileEncoder::writeToFile(void *audioData, int32_t numFrames) {
-   return mFileEncoder->write(audioData, numFrames);
+    return mFileEncoder->write(audioData, numFrames);
 }
 
 void AudioFileEncoder::closeFile() {

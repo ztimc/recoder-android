@@ -6,7 +6,7 @@
 #define WEBRTC_NOISE_ANDROID_AUDIOFILEENCODER_H
 
 #include <stdint.h>
-#include "Codec.h"
+#include "RecorderCodec.h"
 #include "Oboe.h"
 #include "AudioCodec.h"
 
@@ -18,7 +18,7 @@ public:
                        int32_t outputChannels,
                        int32_t sampleRate,
                        oboe::AudioFormat format,
-                       Codec codec);
+                       RecorderCodec codec);
 
     int32_t writeToFile(void *audioData, int32_t numFrames);
 

@@ -8,7 +8,7 @@
 
 #include <stdint.h>
 #include "oboe/Definitions.h"
-#include "../Codec.h"
+#include "../RecorderCodec.h"
 
 class AudioCodec {
 public :

@@ -20,6 +20,12 @@ include_directories(${OBOE_DIR}/include/oboe ${OBOE_DIR}/samples/shared ${OBOE_D
 add_subdirectory(libsndfile)
 include_directories(libsndfile/include)
 
+
+option(WITH_OGG "ogg support (default: test for libogg)" OFF)
+set(INSTALL_MANPAGES OFF)
+add_subdirectory(flac)
+include_directories(flac/include)
+
 # Debug utilities
 set(DEBUG_UTILS_PATH "${OBOE_DIR}/samples/debug-utils")
 set(DEBUG_UTILS_SOURCES ${DEBUG_UTILS_PATH}/trace.cpp)
@@ -45,6 +51,7 @@ add_library(${CMAKE_PROJECT_NAME} SHARED
         recorder/AudioFileEncoder.cpp
         recorder/FormatConverterBox.cpp
         recorder/codec/WavCodec.cpp
+        recorder/codec/FlacEncoder.cpp
         recorder.cpp)
 
 target_include_directories(recorder
@@ -57,5 +64,6 @@ target_link_libraries(${CMAKE_PROJECT_NAME}
         # List libraries link to the target library
         oboe
         sndfile
+        FLAC++
         android
         log)

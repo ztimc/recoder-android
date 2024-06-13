@@ -2,7 +2,7 @@
 #include <string>
 
 #include "recorder/RecorderOboeEngine.h"
-#include "recorder/Codec.h"
+#include "recorder/RecorderCodec.h"
 
 static RecorderOboeEngine *engine;
 
@@ -47,7 +47,7 @@ Java_com_sabinetek_recorder_AudioRecorder_startRecording(JNIEnv *env, jobject th
     engine->start(device_id,
                   channel,
                   sample_rate,
-        static_cast<Codec>(codec),
+        static_cast<RecorderCodec>(codec),
                   format,
                   path);
 

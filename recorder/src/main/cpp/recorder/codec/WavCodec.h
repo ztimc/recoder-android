@@ -13,7 +13,7 @@ class WavCodec : public AudioCodec {
 
 public:
     int32_t createCodec(const char *outFileName, int32_t outputChannels, int32_t sampleRate,
-                        oboe::AudioFormat format) ;
+                        oboe::AudioFormat format) override ;
 
     int32_t write(void *audioData, int32_t samples) override;
 

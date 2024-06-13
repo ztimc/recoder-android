@@ -17,7 +17,7 @@ oboe::Result RecorderOboeEngine::start(
         int deviceId,
         int channelCount,
         int sampleRate,
-        Codec codec,
+        RecorderCodec codec,
         oboe::AudioFormat audioFormat,
         const char *filePath) {
     mDeviceId = deviceId;
