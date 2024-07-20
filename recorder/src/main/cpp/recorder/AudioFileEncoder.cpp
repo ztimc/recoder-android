@@ -6,6 +6,7 @@
 #include "logging_macros.h"
 #include "WavCodec.h"
 #include "FlacEncoder.h"
+#include "AACEncoder.h"
 
 void AudioFileEncoder::openAudioFile(const char *outFileName,
                                      int32_t outputChannels,
@@ -19,6 +20,10 @@ void AudioFileEncoder::openAudioFile(const char *outFileName,
             break;
         case RECORDER_FLAC:
             mFileEncoder = std::make_shared<FlacEncoder>();
+            mFileEncoder->createCodec(outFileName, outputChannels, sampleRate, format);
+            break;
+        case RECORDER_AAC:
+            mFileEncoder = std::make_shared<AACEncoder>();
             mFileEncoder->createCodec(outFileName, outputChannels, sampleRate, format);
             break;
     }

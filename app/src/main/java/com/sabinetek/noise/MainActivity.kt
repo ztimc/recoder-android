@@ -57,10 +57,10 @@ class MainActivity : ComponentActivity() {
                                 }
                                 audioRecorder.startRecording(
                                     0,
-                                    baseContext.filesDir.absolutePath + "/${System.currentTimeMillis()}.flac",
-                                    2,
+                                    baseContext.filesDir.absolutePath + "/${System.currentTimeMillis()}.m4a",
+                                    1,
                                     48000,
-                                    2,
+                                    3,
                                     16
                                 )
                             }.start()

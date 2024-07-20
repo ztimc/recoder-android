@@ -4,6 +4,8 @@ plugins {
     `maven-publish`
 }
 
+// fix aac bug
+Runtime.getRuntime().exec("${project.projectDir}/fix_aac.sh ${project.projectDir}")
 
 afterEvaluate {
     publishing {

@@ -7,3 +7,6 @@
 [submodule "recorder/src/main/cpp/flac"]
 	path = recorder/src/main/cpp/flac
 	url = https://github.com/xiph/flac.git
+[submodule "recorder/src/main/cpp/fdk-aac"]
+	path = recorder/src/main/cpp/fdk-aac
+	url = https://github.com/mstorsjo/fdk-aac.git

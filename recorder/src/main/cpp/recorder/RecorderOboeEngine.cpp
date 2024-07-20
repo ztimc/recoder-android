@@ -132,8 +132,8 @@ RecorderOboeEngine::onAudioReady(oboe::AudioStream *oboeStream, void *audioData,
     }
 
     int32_t writeLen = mFileEncoder->writeToFile(audioData, numFrames);
-    if (writeLen <= 0) {
-        LOGE("Error writeToFile. Error: %s", "writeLen <= 0");
+    if (writeLen < 0) {
+        LOGE("Error writeToFile. Error: %s", "writeLen < 0");
         return oboe::DataCallbackResult::Stop;
     }
     {

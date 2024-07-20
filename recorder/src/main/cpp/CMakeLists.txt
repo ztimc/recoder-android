@@ -11,6 +11,9 @@ cmake_minimum_required(VERSION 3.22.1)
 # build script scope).
 project("recorder")
 
+include_directories(fdk-aac/libAACdec/include fdk-aac/libAACenc/include fdk-aac/libSYS/include fdk-aac/libPCMutils/include)
+add_subdirectory(fdk-aac)
+
 
 set(OBOE_DIR oboe)
 add_subdirectory(${OBOE_DIR} ./oboe)
@@ -20,11 +23,15 @@ include_directories(${OBOE_DIR}/include/oboe ${OBOE_DIR}/samples/shared ${OBOE_D
 add_subdirectory(libsndfile)
 include_directories(libsndfile/include)
 
-
 option(WITH_OGG "ogg support (default: test for libogg)" OFF)
 set(INSTALL_MANPAGES OFF)
 add_subdirectory(flac)
 include_directories(flac/include)
+
+#aac
+
+
+
 
 # Debug utilities
 set(DEBUG_UTILS_PATH "${OBOE_DIR}/samples/debug-utils")
@@ -52,6 +59,7 @@ add_library(${CMAKE_PROJECT_NAME} SHARED
         recorder/FormatConverterBox.cpp
         recorder/codec/WavCodec.cpp
         recorder/codec/FlacEncoder.cpp
+        recorder/codec/AACEncoder.cpp
         recorder.cpp)
 
 target_include_directories(recorder
@@ -64,6 +72,7 @@ target_link_libraries(${CMAKE_PROJECT_NAME}
         # List libraries link to the target library
         oboe
         sndfile
+        fdk-aac
         FLAC++
         android
         log)

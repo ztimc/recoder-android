@@ -17,6 +17,8 @@ enum RecorderCodec : int32_t {
      * Use this for flac.
      */
     RECORDER_FLAC = 2,
+
+    RECORDER_AAC = 3,
 };
 
 
