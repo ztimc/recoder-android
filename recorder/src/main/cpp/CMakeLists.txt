@@ -11,8 +11,6 @@ cmake_minimum_required(VERSION 3.22.1)
 # build script scope).
 project("recorder")
 
-include_directories(fdk-aac/libAACdec/include fdk-aac/libAACenc/include fdk-aac/libSYS/include fdk-aac/libPCMutils/include)
-add_subdirectory(fdk-aac)
 
 
 set(OBOE_DIR oboe)
@@ -25,6 +23,7 @@ include_directories(libsndfile/include)
 
 option(WITH_OGG "ogg support (default: test for libogg)" OFF)
 set(INSTALL_MANPAGES OFF)
+option(INSTALL_MANPAGES "Install MAN pages" OFF)
 add_subdirectory(flac)
 include_directories(flac/include)
 
