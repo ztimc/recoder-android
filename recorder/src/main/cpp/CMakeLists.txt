@@ -12,7 +12,6 @@ cmake_minimum_required(VERSION 3.22.1)
 project("recorder")
 
 set(INSTALL_MANPAGES OFF)
-set(BUILD_TESTING OFF)
 
 #aac
 include_directories(fdk-aac/libAACdec/include fdk-aac/libAACenc/include fdk-aac/libSYS/include fdk-aac/libPCMutils/include)

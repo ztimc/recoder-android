@@ -36,6 +36,10 @@ android {
                 arguments("-DANDROID_STL=c++_shared")
             }
         }
+        ndk {
+            //noinspection ChromeOsAbiSupport
+            abiFilters += listOf("arm64-v8a")
+        }
     }
 
     buildTypes {
