@@ -23,7 +23,7 @@ afterEvaluate {
 
 android {
     namespace = "com.sabinetek.recorder"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         minSdk = 24
@@ -33,6 +33,7 @@ android {
         externalNativeBuild {
             cmake {
                 cppFlags("")
+                arguments("-DANDROID_STL=c++_shared")
             }
         }
     }
@@ -50,6 +51,7 @@ android {
         cmake {
             path("src/main/cpp/CMakeLists.txt")
             version = "3.22.1"
+
         }
     }
     compileOptions {
@@ -63,6 +65,6 @@ android {
 
 dependencies {
 
-    implementation("androidx.core:core-ktx:1.9.0")
-    implementation("androidx.appcompat:appcompat:1.6.1")
+    implementation("androidx.core:core-ktx:1.13.1")
+    implementation("androidx.appcompat:appcompat:1.7.0")
 }
