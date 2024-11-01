@@ -42,8 +42,6 @@ Java_com_sabinetek_recorder_AudioRecorder_startRecording(JNIEnv *env, jobject th
         format = oboe::AudioFormat::Float;
     }
 
-
-
     engine->start(device_id,
                   channel,
                   sample_rate,

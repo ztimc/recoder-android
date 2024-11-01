@@ -72,7 +72,7 @@ int32_t AACEncoder::write(void *audioData, int32_t samples) {
     int out_identifier = OUT_BITSTREAM_DATA;
     int out_size, out_elem_size;
     void *in_ptr, *out_ptr;
-    uint8_t outbuf[2048];
+    uint8_t outbuf[20480];
     uint8_t inbuf[1024 * 10];
     AACENC_ERROR err;
 
@@ -82,7 +82,7 @@ int32_t AACEncoder::write(void *audioData, int32_t samples) {
     in_size = (int)mInfo.frameLength * 2 * mChannel;
     in_elem_size = 2;
 
-    in_args.numInSamples = (int)mInfo.frameLength;
+    in_args.numInSamples = in_size / 2;
     in_buf.numBufs = 1;
     in_buf.bufs = &in_ptr;
     in_buf.bufferIdentifiers = &in_identifier;
@@ -101,8 +101,8 @@ int32_t AACEncoder::write(void *audioData, int32_t samples) {
     if ((err = aacEncEncode(mHandle, &in_buf, &out_buf, &in_args, &out_args)) != AACENC_OK) {
         return -1;
     }
-    if (out_args.numOutBytes <= 0)
-        return -1;
+    if (out_args.numOutBytes == 0)
+        return 0;
 
     fwrite(outbuf, 1, out_args.numOutBytes, mAACFile);
     return out_args.numOutBytes;
